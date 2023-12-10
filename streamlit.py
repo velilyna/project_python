@@ -55,3 +55,23 @@ def calculate_mean(param):
 
 mean_value = calculate_mean(selected_param)
 st.write(f'Mean value of {selected_param.lower()}: {mean_value}')
+
+income_category_unique = df["income_category"].unique()
+income_category_counts = df['income_category'].value_counts() 
+sorted_data = income_category_counts.reindex(income_category_unique )
+total = sum(income_category_counts)
+# percentages = [count / total * 100 for count in type_counts]
+income_category_share = [count / total * 100 for count in income_category_counts]
+
+plt.figure(figsize=(7, 5))
+bars = sn.barplot(x = sorted_data.index, y = sorted_data,hue=sorted_data.index, palette=["green", "orange", "blue"], dodge=False)
+
+plt.xlabel("income_category")
+plt.ylabel("total")
+plt.title("Distribution of income_category")
+
+for bar, percentage in zip(bars.patches, income_category_share):
+    height = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width() / 2, height, f"{percentage:.1f}%", ha="center", va="bottom")
+    
+st.plotly_chart(plt)
