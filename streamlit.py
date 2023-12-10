@@ -4,7 +4,7 @@ import pandas as pd
 df = pd.read_table("marketing_campaign.csv")
 df['Age'] = 2023 - df['Year_Birth']
 df['Kids_number'] = df['Kidhome'] + df['Teenhome']
-
+df.isna().sum()
 
 st.title('Data Analysis')
 
