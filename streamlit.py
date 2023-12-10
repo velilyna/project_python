@@ -12,7 +12,7 @@ st.title('Data Analysis')
 st.write(df)
 
 
-age = st.slider('Select Age', min_value=0, max_value=120, value=(0, 100))
+age = st.slider('Select Age', min_value=0, max_value=100, value=(0, 100))
 income = st.slider('Select Income', min_value=0, max_value=700000, value=(0, 20000))
 children = st.slider('Select Number of Children', int(df['Kids_number'].min()), int(df['Kids_number'].max()))
 
