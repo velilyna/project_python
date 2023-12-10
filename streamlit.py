@@ -55,39 +55,3 @@ def calculate_mean(param):
 
 mean_value = calculate_mean(selected_param)
 st.write(f'Mean value of {selected_param.lower()}: {mean_value}')
-
-def income_category(row):
-    if row['Income'] <= 30000:
-        return 'low income'
-    elif (row['Income'] <= 80000) and (row['Income'] > 30000):
-        return 'medium income'
-    else:
-        return 'high'
-
-df['income_category'] = df.apply(income_category, axis=1)  
-
-df.pivot_table(index=['income_category'], values=['income','total_cat_spent'], aggfunc="sum",fill_value=0) 
-sn.set_theme(style="white")
-plt.figure(figsize=(8,8))
-plt.title("Expenses impact versus level of Income ",fontsize=24)
-sn.barplot(x="income_category", y="total_cat_spent", data=df,palette="rainbow")
-
-income_category_unique = df["income_category"].unique()
-income_category_counts = df['income_category'].value_counts() 
-sorted_data = income_category_counts.reindex(income_category_unique )
-total = sum(income_category_counts)
-# percentages = [count / total * 100 for count in type_counts]
-income_category_share = [count / total * 100 for count in income_category_counts]
-
-plt.figure(figsize=(7, 5))
-bars = sn.barplot(x = sorted_data.index, y = sorted_data,hue=sorted_data.index, palette=["green", "orange", "blue"], dodge=False)
-
-plt.xlabel("income_category")
-plt.ylabel("total")
-plt.title("Distribution of income_category")
-
-for bar, percentage in zip(bars.patches, income_category_share):
-    height = bar.get_height()
-    plt.text(bar.get_x() + bar.get_width() / 2, height, f"{percentage:.1f}%", ha="center", va="bottom")
-    
-st.plotly_chart(plt)
